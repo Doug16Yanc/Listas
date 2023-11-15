@@ -1,6 +1,6 @@
 
-#ifndef ALGORITMOS_H
-#define ALGORITMOS_H
+#ifndef LISTAS_H
+#define LISTAS_H
 
 #include <stdio.h>
 #include <stdlib.h>
