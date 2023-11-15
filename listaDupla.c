@@ -11,38 +11,40 @@ void interageListaDupla(){
 
     do{
         printf("        Selecione uma opção             \n");
-        printf("        0 - Retornar ao início          \n");
+        printf("        0 - Encerrar operação           \n");
         printf("        1 - Inserir no início           \n");
         printf("        2 - Inserir no meio             \n");
         printf("        3 - Inserir no final            \n");
         printf("        4 - Remover nó                  \n");
         printf("        5 - Buscar nó                   \n");
-        printf("        6 - Listar nós na ordem direta  \n");
-        printf("        7 - Listar nós na ordem inversa \n");
+        printf("        6 - Listar nós                  \n");
 
         scanf("%d", &opcao);
 
         switch(opcao){
+            case 0:
+                printf("Obrigado por sua interação comigo. Até logo!\n");
+                exit(1);
             case 1:
                 printf("Digite um valor a ser inserido:\n");
                 scanf("%lf", &valor);
-                inserirInicio(&lista, valor);
+                inserirInicioDup(&lista, valor);
                 break;
             case 2:
                 printf("Digite um valor a ser inserido e o valor de referência:\n");
                 scanf("%lf%lf", &valor, &anterior);
-                inserirMeio(&lista, valor, anterior);
+                inserirMeioDup(&lista, valor, anterior);
                 break;
             case 3:
                 printf("Digite um valor a ser inserido:\n");
                 scanf("%lf", &valor);
-                inserirFim(&lista, valor);
+                inserirFimDup(&lista, valor);
                 break;
             case 4:
                 printf("Digite um valor a ser removido:\n");
                 scanf("%lf", &valor);
-                removido = removerNo(&lista, valor);
-                if(remover){
+                removido = removerNoDup(&lista, valor);
+                if(removerNoDup){
                     printf("Elemento a ser removido com sucesso: %.2f\n", removido -> valor);
                     free(removido);
                 }
@@ -53,19 +55,16 @@ void interageListaDupla(){
             case 5:
                 printf("Digite um elemento a ser buscado:\n");
                 scanf("%lf", &valor);
-                buscado = buscarNo(&lista, valor);
+                buscado = buscarNoDup(&lista, valor);
                 if(buscado){
-                    printf("Elemento encontrado com sucesso: %.2f", buscado -> valor);
+                    printf("Elemento encontrado com sucesso: %.2f\n", buscado -> valor);
                 }
                 else{
                     printf("Elemento não encontrado.\n");
                 }
                 break;
             case 6:
-                listarDireto(lista);
-                break;
-            case 7:
-                listarInverso(&lista);
+                listarDiretoDup(lista);
                 break;
             default:
                 if (opcao != 0){
@@ -78,39 +77,118 @@ void interageListaDupla(){
     
 }
 
+void criarListaDup(Lista *lista){
+    lista -> ini = NULL;
+    lista -> tam = 0;
+}
 
-void inserirInicio(No** lista, int elemento){
-    No *novoNo = malloc(sizeof(No));
+void inserirInicioDup(No** lista, double elemento){
+    No *novoNo = malloc(sizeof(No)); 
+    
+    if (novoNo == NULL){
+        printf("Não há memória disponível para esta alocação.\n");
+        exit(1);
+    }
 
-    if (novoNo){
-        novoNo -> valor = elemento;
-        novoNo -> proximo = *lista;
+    novoNo -> valor = elemento;
+    novoNo -> proximo = *lista;
+    novoNo -> anterior = NULL;
+    if(*lista){
+        (*lista) -> anterior = novoNo;
+    }
+    *lista = novoNo;
+
+}
+void inserirMeioDup(No** lista, double elemento, double anterior){
+    No *auxiliar, *novoNo = malloc(sizeof(No));
+    
+    if (novoNo == NULL){
+        printf("Não há memória disponível para esta alocação.\n");
+        exit(1);
+    }
+    
+    novoNo -> valor = elemento;
+        
+    if (*lista == NULL){
+        novoNo -> proximo = NULL;
         novoNo -> anterior = NULL;
-        if(*lista){
-            (*lista) -> anterior = novoNo;
-        }
         *lista = novoNo;
     }
     else{
-        printf("Não há memória disponível para tal alocação.\n");
-        exit(1);
+        auxiliar = *lista;
+        
+        while(auxiliar -> valor != anterior && auxiliar -> proximo){
+            auxiliar = auxiliar -> proximo;
+        }
+        novoNo -> proximo = auxiliar -> proximo;
+        auxiliar -> proximo = novoNo;
     }
 }
-void inserirMeio(No** lista, int elemento, int anterior){
-
+void inserirFimDup(No ** lista, double elemento){
+    No *auxiliar, *novoNo = malloc(sizeof(No));
+    
+    if (novoNo == NULL){
+        printf("Não há memória disponível para esta alocação.\n");
+        exit(1);
+    }
+    
+    novoNo -> valor = elemento;
+    novoNo -> proximo = NULL;
+    
+    if (*lista == NULL){
+        *lista =  novoNo;
+    }
+    else{
+        auxiliar = *lista;
+        while(auxiliar -> proximo){
+            auxiliar = auxiliar -> proximo;
+        }
+        auxiliar -> proximo = novoNo;
+    }
 }
-void inserirFim(No ** lista, int elemento){
-
+No* removerNoDup(No** lista, double elemento){
+    No *auxiliar, *removerNo = NULL;
+    
+    if (*lista){
+        if((*lista) -> valor == elemento){
+            removerNo = *lista;
+            *lista = removerNo -> proximo;
+            
+            if (*lista){
+                (*lista) -> anterior = NULL;
+            }
+        }
+        else{
+            auxiliar = *lista;
+            while(auxiliar -> proximo && auxiliar -> valor != elemento){
+                auxiliar = auxiliar -> proximo;
+            }
+            if (auxiliar -> proximo){
+                auxiliar -> proximo = removerNo -> proximo;
+            }
+        }
+    }
+    return removerNo;
 }
-void removerNo(No** lista, int elemento){
-
+No* buscarNoDup(No** lista, double elemento){
+    No *auxiliar, *no = NULL;
+    
+    auxiliar = *lista;
+    
+    while(auxiliar && auxiliar -> valor != elemento){
+        auxiliar = auxiliar -> proximo;
+    }
+    
+    if (auxiliar){
+        no = auxiliar;
+    }
+    return no;
 }
-No* buscarNo(No** lista, int elemento){
-
-}
-void listarDireto(No *no){
-
-}
-void listarInverso(No *lista){
-
+void listarDiretoDup(No *no){
+    printf("\n              LISTA               \n");
+    while(no){
+        printf("%.2f ", no -> valor);
+        no = no -> proximo;
+    }
+    printf("\n");
 }
