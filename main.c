@@ -1,5 +1,6 @@
 #include "listas.h"
 
+/*Só o básico para interagir primeiro com o usuário no escopo da função principal*/
 int main(void){
     int opcao;
     

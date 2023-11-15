@@ -41,6 +41,7 @@ void inserirFimDup(No** lista, double elemento);
 No* removerNoDup(No** lista, double elemento);
 No* buscarNoDup(No** lista, double elemento);
 void listarDiretoDup(No *no);
+void listarInversoDup(No *no);
 
 /*Protótipos de funções para lista circular*/
 void criarListaCir(ListaCir *listaCir);

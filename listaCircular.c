@@ -54,7 +54,7 @@ void interageListaCircular(){
                 scanf("%lf", &numero);
                 buscado = buscarNoCir(&listaCir, numero);
                 if(buscado){
-                    printf("Elemento encontrado com sucesso: %.2f", buscado -> numero);
+                    printf("Elemento encontrado com sucesso: %.2f\n", buscado -> numero);
                 }
                 else{
                     printf("Elemento não encontrado.\n");
@@ -113,7 +113,8 @@ void inserirFimCir(ListaCir *listaCir, double num) {
         listaCir->inicio = novoNode;
         listaCir->fim = novoNode;
         listaCir->fim->prox = listaCir->inicio;
-    } else {
+    }
+     else {
         listaCir->fim->prox = novoNode;
         listaCir->fim = novoNode;
         listaCir->fim->prox = listaCir->inicio;
@@ -130,12 +131,14 @@ Node* removerNoCir(ListaCir *listaCir, double numero) {
             listaCir->inicio = NULL;
             listaCir->fim = NULL;
             listaCir->tamanho--;
-        } else if (listaCir->inicio->numero == numero) {
+        } 
+        else if (listaCir->inicio->numero == numero) {
             removerNode = listaCir->inicio;
             listaCir->inicio = removerNode->prox;
             listaCir->fim->prox = listaCir->inicio;
             listaCir->tamanho--;
-        } else {
+        } 
+        else {
             auxiliar = listaCir->inicio;
 
             while (auxiliar->prox != listaCir->inicio && auxiliar->prox->numero != numero) {
@@ -146,7 +149,8 @@ Node* removerNoCir(ListaCir *listaCir, double numero) {
                     removerNode = auxiliar->prox;
                     auxiliar->prox = removerNode->prox;
                     listaCir->fim = auxiliar;
-                } else {
+                }
+                 else {
                     removerNode = auxiliar->prox;
                     auxiliar->prox = removerNode->prox;
                 }
@@ -161,12 +165,13 @@ Node* buscarNoCir(ListaCir *listaCir, double num) {
     Node *auxiliar = listaCir->inicio;
 
     if (auxiliar) {
-        while (auxiliar != listaCir->inicio) {
+        do{ 
             if (auxiliar->numero == num) {
                 return auxiliar;
             }
             auxiliar = auxiliar->prox;
         }
+        while(auxiliar != listaCir->inicio);
     }
     return NULL;
 }
@@ -180,7 +185,8 @@ void listarCir(ListaCir *listaCir) {
         do {
             printf("%.2f\t", node->numero);
             node = node->prox;
-        } while (node != listaCir->inicio);
+        } 
+        while (node != listaCir->inicio);
         printf("\n");
     }
 }

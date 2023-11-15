@@ -17,7 +17,8 @@ void interageListaDupla(){
         printf("        3 - Inserir no final            \n");
         printf("        4 - Remover nó                  \n");
         printf("        5 - Buscar nó                   \n");
-        printf("        6 - Listar nós                  \n");
+        printf("        6 - Listar nós na ordem direta  \n");
+        printf("        7 - Listar nós na ordem inversa \n");
 
         scanf("%d", &opcao);
 
@@ -65,6 +66,9 @@ void interageListaDupla(){
                 break;
             case 6:
                 listarDiretoDup(lista);
+                break;
+            case 7:
+                listarInversoDup(lista);
                 break;
             default:
                 if (opcao != 0){
@@ -146,30 +150,39 @@ void inserirFimDup(No ** lista, double elemento){
         auxiliar -> proximo = novoNo;
     }
 }
+
 No* removerNoDup(No** lista, double elemento){
-    No *auxiliar, *removerNo = NULL;
+    No *auxiliar, *removerNoDup = NULL;
     
     if (*lista){
-        if((*lista) -> valor == elemento){
-            removerNo = *lista;
-            *lista = removerNo -> proximo;
+        if((*lista)->valor == elemento){
+            removerNoDup = *lista;
+            *lista = removerNoDup->proximo;
             
             if (*lista){
-                (*lista) -> anterior = NULL;
+                (*lista)->anterior = NULL;
             }
         }
-        else{
+        else {
             auxiliar = *lista;
-            while(auxiliar -> proximo && auxiliar -> valor != elemento){
-                auxiliar = auxiliar -> proximo;
+            while (auxiliar->proximo && auxiliar->proximo->valor != elemento) {
+                auxiliar = auxiliar->proximo;
             }
-            if (auxiliar -> proximo){
-                auxiliar -> proximo = removerNo -> proximo;
+            
+            if (auxiliar->proximo) {
+                removerNoDup = auxiliar->proximo;
+                auxiliar->proximo = removerNoDup->proximo;
+                
+                if (removerNoDup->proximo) {
+                    removerNoDup->proximo->anterior = auxiliar;
+                }
             }
         }
     }
-    return removerNo;
+    
+    return removerNoDup;
 }
+
 No* buscarNoDup(No** lista, double elemento){
     No *auxiliar, *no = NULL;
     
@@ -185,10 +198,28 @@ No* buscarNoDup(No** lista, double elemento){
     return no;
 }
 void listarDiretoDup(No *no){
-    printf("\n              LISTA               \n");
+    printf("\n              LISTA DIRETA        \n");
     while(no){
         printf("%.2f ", no -> valor);
         no = no -> proximo;
     }
     printf("\n");
+}
+
+void listarInversoDup(No *no){
+    No *ultimo = NULL;
+
+    while(no){
+        ultimo = no;
+        no = no -> proximo; 
+       
+    } 
+    printf("       LISTA INVERSA        \n ");
+
+    while(ultimo){
+        printf("%.2f\t", ultimo -> valor);
+        ultimo = ultimo -> anterior;
+    }
+    printf("\n");
+   
 }
