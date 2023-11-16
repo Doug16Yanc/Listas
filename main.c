@@ -1,6 +1,8 @@
 #include "listas.h"
 
 /*Só o básico para interagir primeiro com o usuário no escopo da função principal*/
+/*Após escolher uma das opções, não há retorno para a função principal na mesma execução, desse
+modo, o usuário só pode interagir com cada uma das listas por meio de execuções distintas.*/
 int main(void){
     int opcao;
     
